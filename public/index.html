@@ -7,14 +7,13 @@
   <meta name="description" content="Yuri Liker - Boost your Facebook reactions easily and get cookies seamlessly.">
   <meta property="og:title" content="Yuri Liker">
   <meta property="og:description" content="Boost your Facebook reactions easily and get cookies seamlessly.">
-  <meta property="og:image" content="https://example.com/image.png">
-  <meta property="og:url" content="https://yuriliker.onrender.com"> 
+  <meta property="og:image" content="https://example.com/image.png"> <!-- Replace with your image URL -->
+  <meta property="og:url" content="https://example.com"> <!-- Replace with your website URL -->
   <meta name="twitter:card" content="summary_large_image">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="importmap">
     {
       "imports": {
@@ -170,7 +169,7 @@
       font-family: var(--md-ref-typeface-plain);
       line-height: var(--md-sys-typescale-body-medium-line-height);
       padding: 1.5rem;
-      border-radius: 8px;
+      border-radius: 16px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s, color 0.3s;
     }
@@ -190,6 +189,7 @@
       background-color: var(--md-sys-color-primary);
       color: var(--md-sys-color-on-primary);
       transition: background-color 0.3s, color 0.3s;
+      border-radius: 8px;
     }
 
     md-filled-button:hover {
@@ -281,6 +281,7 @@
       color: var(--md-sys-color-on-surface);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s, color 0.3s;
+      border-radius: 16px;
     }
 
     .header-bar .material-icons {
@@ -309,6 +310,7 @@
       transform: translateX(-100%);
       transition: transform 0.3s;
       z-index: 1000;
+      border-radius: 16px 0 0 16px;
     }
 
     .menu.open {
@@ -340,6 +342,7 @@
       cursor: pointer;
     }
 
+    /* Additional UI Improvements */
     .header-title {
       display: flex;
       align-items: center;
@@ -355,6 +358,25 @@
       width: 100%;
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s, color 0.3s;
+      border-radius: 16px;
+    }
+
+    .no-connection-alert {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--md-sys-color-error-container);
+      color: var(--md-sys-color-on-error-container);
+      text-align: center;
+      padding: 0.5rem;
+      z-index: 10000;
+      display: none;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .no-connection-alert.show {
+      display: block;
     }
   </style>
   <script>
@@ -369,77 +391,7 @@
         event.preventDefault();
       }
     });
-  </script>
-</head>
-<body class="flex flex-col items-center p-4 md:p-8 dark-mode">
-  <header class="header-bar">
-    <span class="material-icons" id="menu-icon">menu</span>
-    <div class="header-title">Yuri Liker</div>
-    <span class="material-icons" id="toggle-theme-icon">light_mode</span>
-  </header>
-  <div class="menu" id="side-menu">
-    <div class="menu-close">
-      <span class="material-icons" id="close-menu">close</span>
-    </div>
-    <ul>
-      <li><a href="#">Get FB Reactions</a></li>
-    </ul>
-  </div>
-  <div class="container max-w-lg w-full p-6 rounded-lg shadow-lg mb-6">
-    <h2 class="text-2xl font-bold mb-4 title-brown">Cookie Getter</h2>
-    <div class="form-group">
-      <md-outlined-text-field label="Email" id="email" placeholder="Enter your email"></md-outlined-text-field>
-    </div>
-    <div class="form-group">
-      <md-outlined-text-field label="Password" id="password" type="password" placeholder="Enter your password"></md-outlined-text-field>
-      <span class="material-icons visibility-toggle" id="toggle-password">visibility</span>
-    </div>
-    <md-filled-button id="get-cookie">Get Cookie</md-filled-button>
-    <div class="alert" id="cookie-alert"></div>
-  </div>
-  <div class="container max-w-lg w-full p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold mb-4 title-brown">Boost Facebook Reaction</h2>
-    <div class="form-group">
-      <md-outlined-text-field label="Link" id="link" placeholder="Enter the Facebook link"></md-outlined-text-field>
-    </div>
-    <div class="form-group">
-      <md-outlined-select id="type" label="Reaction Type">
-        <md-select-option value="LIKE">
-          <div slot="headline">LIKE</div>
-        </md-select-option>
-        <md-select-option value="LOVE">
-          <div slot="headline">LOVE</div>
-        </md-select-option>
-        <md-select-option value="HAHA">
-          <div slot="headline">HAHA</div>
-        </md-select-option>
-        <md-select-option value="WOW">
-          <div slot="headline">WOW</div>
-        </md-select-option>
-        <md-select-option value="ANGRY">
-          <div slot="headline">ANGRY</div>
-        </md-select-option>
-        <md-select-option value="SAD">
-          <div slot="headline">SAD</div>
-        </md-select-option>
-        <md-select-option value="CARE">
-          <div slot="headline">CARE</div>
-        </md-select-option>
-      </md-outlined-select>
-    </div>
-    <div class="form-group">
-      <md-outlined-text-field label="Cookie" id="boost-cookie" placeholder="Cookie will appear here" readonly></md-outlined-text-field>
-      <span class="material-icons edit-toggle" id="edit-cookie">edit</span>
-    </div>
-    <md-filled-button id="boost-reaction">Boost Reaction</md-filled-button>
-    <div class="alert" id="reaction-alert"></div>
-    <div class="alert hidden" id="countdown-alert"></div>
-  </div>
-  <footer class="footer">
-    <p>© 2024 Your Company. All rights reserved.</p>
-  </footer>
 
-  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const showLoading = (button) => {
         button.disabled = true;
@@ -494,6 +446,19 @@
         }
       }
 
+      const checkConnection = () => {
+        const noConnectionAlert = document.getElementById('no-connection-alert');
+        if (!navigator.onLine) {
+          noConnectionAlert.classList.add('show');
+        } else {
+          noConnectionAlert.classList.remove('show');
+        }
+      };
+
+      window.addEventListener('online', checkConnection);
+      window.addEventListener('offline', checkConnection);
+      checkConnection();
+
       document.getElementById('get-cookie').addEventListener('click', async () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -506,11 +471,15 @@
         showLoading(button);
 
         try {
-          const response = await axios.get(`/api/get-cookie?email=${email}&password=${password}`);
-          const data = response.data;
-          showAlert('cookie-alert', 'Cookie retrieved successfully', 'success');
-          document.getElementById('boost-cookie').value = data.cookie;
-          document.getElementById('boost-cookie').readOnly = true;
+          const response = await fetch(`/api/get-cookie?email=${email}&password=${password}`);
+          const data = await response.json();
+          if (response.ok) {
+            showAlert('cookie-alert', 'Cookie retrieved successfully', 'success');
+            document.getElementById('boost-cookie').value = data.cookie; // Automatically fill the cookie field
+            document.getElementById('boost-cookie').readOnly = true;
+          } else {
+            throw new Error(data.error || 'Failed to get cookie');
+          }
         } catch (error) {
           showAlert('cookie-alert', 'Failed to get cookie', 'error');
           document.getElementById('boost-cookie').readOnly = false;
@@ -532,13 +501,23 @@
         showLoading(button);
 
         try {
-          const response = await axios.post('/api/boost-reaction', { link, type, cookie });
-          const data = response.data;
-          showAlert('reaction-alert', 'Reaction boosted successfully', 'success');
+          const response = await fetch('/api/boost-reaction', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ link, type, cookie })
+          });
+          const data = await response.json();
+          if (response.ok) {
+            showAlert('reaction-alert', 'Reaction boosted successfully', 'success');
 
-          const countdownEndTime = Date.now() + 30 * 60 * 1000;
-          localStorage.setItem('boostCountdown', countdownEndTime);
-          startCountdown(30 * 60);
+            const countdownEndTime = Date.now() + 30 * 60 * 1000;
+            localStorage.setItem('boostCountdown', countdownEndTime);
+            startCountdown(30 * 60);
+          } else {
+            throw new Error(data.error || 'Failed to boost reaction');
+          }
         } catch (error) {
           showAlert('reaction-alert', 'Failed to boost reaction', 'error');
         } finally {
@@ -589,5 +568,74 @@
       });
     });
   </script>
+</head>
+<body class="flex flex-col items-center p-4 md:p-8">
+  <div class="no-connection-alert" id="no-connection-alert">No internet connection</div>
+  <header class="header-bar">
+    <span class="material-icons" id="menu-icon">menu</span>
+    <div class="header-title">Yuri Liker</div>
+    <span class="material-icons" id="toggle-theme-icon">dark_mode</span>
+  </header>
+
+  <nav class="menu" id="side-menu">
+    <div class="menu-close">
+      <span class="material-icons" id="close-menu">close</span>
+    </div>
+    <ul>
+      <li><a href="#">Get FB Reactions</a></li>
+    </ul>
+  </nav>
+
+  <div class="container max-w-lg w-full p-6 rounded-lg shadow-lg mb-6">
+    <h1 class="text-2xl font-bold mb-4 title-brown">Cookie Getter</h1>
+    <div class="form-group">
+      <md-outlined-text-field label="Email" id="email"></md-outlined-text-field>
+    </div>
+    <div class="form-group">
+      <md-outlined-text-field label="Password" id="password" type="password"></md-outlined-text-field>
+      <span class="material-icons visibility-toggle" id="toggle-password">visibility</span>
+    </div>
+    <md-filled-button id="get-cookie">Get Cookie</md-filled-button>
+    <div id="cookie-alert" class="alert"></div>
+  </div>
+
+  <div class="container max-w-lg w-full p-6 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold mb-4 title-brown">Boost Facebook Reaction</h1>
+    <div class="form-group">
+      <md-outlined-text-field label="Link" id="link"></md-outlined-text-field>
+    </div>
+    <div class="form-group">
+      <md-outlined-select label="Reaction Type" id="type">
+        <md-select-option value="LIKE">
+          <div slot="headline">LIKE</div>
+        </md-select-option>
+        <md-select-option value="LOVE">
+          <div slot="headline">LOVE</div>
+        </md-select-option>
+        <md-select-option value="HAHA">
+          <div slot="headline">HAHA</div>
+        </md-select-option>
+        <md-select-option value="WOW">
+          <div slot="headline">WOW</div>
+        </md-select-option>
+        <md-select-option value="SAD">
+          <div slot="headline">SAD</div>
+        </md-select-option>
+        <md-select-option value="ANGRY">
+          <div slot="headline">ANGRY</div>
+        </md-select-option>
+        <md-select-option value="CARE">
+          <div slot="headline">CARE</div>
+        </md-select-option>
+      </md-outlined-select>
+    </div>
+    <div class="form-group">
+      <md-outlined-text-field label="Cookie" id="boost-cookie" readonly></md-outlined-text-field>
+      <span class="material-icons edit-toggle" id="edit-cookie">edit</span>
+    </div>
+    <md-filled-button id="boost-reaction">Boost Reaction</md-filled-button>
+    <div id="reaction-alert" class="alert"></div>
+    <div id="countdown-alert" class="alert hidden"></div>
+  </div>
 </body>
 </html>
